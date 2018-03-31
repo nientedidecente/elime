@@ -1,3 +1,4 @@
+import {randomizer} from 'uvk';
 import {RESOLVE_MATRIX} from "./types";
 
 export const SLOTS = {
@@ -14,6 +15,8 @@ export const PLAYERS = {
 const FALLBACK_LIFE = 20;
 
 export class BattleField {
+    turn = null;
+    oldMoved = [];
     moves = [];
     players = {
         [PLAYERS.ONE]: null,
@@ -61,6 +64,24 @@ export class BattleField {
         this.lifeCounters[PLAYERS.TWO] = playerTwo.life || FALLBACK_LIFE;
     }
 
+    forceTurn(player) {
+        this.turn = player;
+    }
+
+    getTurn() {
+        if (this.turn) {
+            const player = this.turn;
+            this.turn = null;
+            return player;
+        }
+
+        if (!this.oldMoved.length && !this.moves.length) {
+            return randomizer.pickOne(Object.values(PLAYERS));
+        }
+
+        return this.getLastMove().player === PLAYERS.ONE ? PLAYERS.TWO : PLAYERS.ONE;
+    }
+
     isFull() {
         let emptySlots = 0;
         Object.values(PLAYERS).forEach(p => {
@@ -80,17 +101,19 @@ export class BattleField {
     }
 
     getLastMove() {
-        if (!this.moves.length) return null;
-        return this.moves[this.moves.length - 1];
+        if (!this.moves.length && !this.oldMoved.length) return null;
+        return this.moves[this.moves.length - 1] || this.oldMoved[this.oldMoved.length - 1];
     }
 
     playCard(player, card, slot) {
-        if (this.moves.length === 1 && this.moves[0].slot === slot) {
+        if (
+            this.moves.length === 1
+            && this.moves[0].slot === slot
+        ) {
             return false;
         }
 
-        const lastMove = this.getLastMove();
-        if (lastMove && lastMove.player === player) {
+        if (this.getTurn() !== player) {
             return false;
         }
 
@@ -138,6 +161,7 @@ export class BattleField {
                 this.slots[p][s] = null;
             });
         });
+        this.oldMoved = [...this.moves];
         this.moves = [];
     }
 

@@ -13,6 +13,7 @@ test('battle round test', () => {
     const playerTwo = {life: 20};
 
     const battleField = new BattleField(playerOne, playerTwo);
+    battleField.forceTurn(PLAYERS.ONE);
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.CENTER);
     expect(battleField.isFull()).toBe(false);
@@ -34,7 +35,7 @@ test('if draw, cost will be carried next turn', () => {
     const battleField = new BattleField(playerOne, playerTwo);
     const fire = new Card({name: '', type: TYPES.FIRE, cost});
     const water = new Card({name: '', type: TYPES.WATER, cost});
-
+    battleField.forceTurn(PLAYERS.ONE);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, fire, SLOTS.CENTER);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.CENTER);
