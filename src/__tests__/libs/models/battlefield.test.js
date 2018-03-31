@@ -27,7 +27,7 @@ test('battle round test', () => {
 });
 
 
-test('if draw it will be payed next turn', () => {
+test('if draw, cost will be carried next turn', () => {
     const playerOne = {life: 20};
     const playerTwo = {life: 20};
     const cost = 10;
@@ -41,8 +41,9 @@ test('if draw it will be payed next turn', () => {
     battleField.playCard(PLAYERS.TWO, fire, SLOTS.CENTER);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.RIGHT);
     battleField.playCard(PLAYERS.TWO, fire, SLOTS.RIGHT);
-    battleField.resolve();
-    expect(battleField.isOver()).toBe(false);
+    let result = battleField.resolve();
+    expect(result).toBe(false);
+    expect(battleField.isOver()).toBe(result);
 
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, water, SLOTS.LEFT);
@@ -50,8 +51,9 @@ test('if draw it will be payed next turn', () => {
     battleField.playCard(PLAYERS.TWO, water, SLOTS.CENTER);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.RIGHT);
     battleField.playCard(PLAYERS.TWO, water, SLOTS.RIGHT);
-    battleField.resolve();
-    expect(battleField.isOver()).toBe(true);
+    result = battleField.resolve();
+    expect(result).toBe(true);
+    expect(battleField.isOver()).toBe(result);
     expect(battleField.result().winner).toBe(PLAYERS.TWO);
     expect(battleField.status()[PLAYERS.ONE]).toBe(-40);
 });
