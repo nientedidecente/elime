@@ -15,15 +15,13 @@ test('battle round test', () => {
     const battleField = new BattleField(playerOne, playerTwo);
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.LEFT);
+    expect(battleField.isFull()).toBe(false);
 
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.CENTER);
     battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.CENTER);
+    expect(battleField.isFull()).toBe(false);
 
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.RIGHT);
     battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.RIGHT);
-
     expect(battleField.isFull()).toBe(true);
-
-    battleField.resolve();
-    console.log(battleField.status());
 });

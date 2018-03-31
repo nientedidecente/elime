@@ -40,6 +40,19 @@ export class BattleField {
         }
     };
 
+    cumulativeCosts = {
+        [PLAYERS.ONE]: {
+            [SLOTS.LEFT]: 0,
+            [SLOTS.CENTER]: 0,
+            [SLOTS.RIGHT]: 0,
+        },
+        [PLAYERS.TWO]: {
+            [SLOTS.LEFT]: 0,
+            [SLOTS.CENTER]: 0,
+            [SLOTS.RIGHT]: 0,
+        }
+    };
+
     constructor(playerOne = {}, playerTwo = {}) {
         this.players[PLAYERS.ONE] = playerOne.name || PLAYERS.ONE;
         this.players[PLAYERS.TWO] = playerTwo.name || PLAYERS.TWO;
@@ -79,12 +92,15 @@ export class BattleField {
             const result = RESOLVE_MATRIX[playerOneCard.type][playerTwoCard.type];
             switch (result) {
                 case 1:
-                    this.lifeCounters[PLAYERS.TWO] -= playerTwoCard.cost;
+                    this.lifeCounters[PLAYERS.TWO] -= (playerTwoCard.cost + this.cumulativeCosts[PLAYERS.TWO][s]);
+                    this.resetCumulativeCost(s);
                     break;
                 case -1:
-                    this.lifeCounters[PLAYERS.ONE] -= playerOneCard.cost;
+                    this.lifeCounters[PLAYERS.ONE] -= (playerOneCard.cost + this.cumulativeCosts[PLAYERS.ONE][s]);
+                    this.resetCumulativeCost(s);
                     break;
                 case 0:
+                    this.setCumulativeCost(s, playerOneCard.cost, playerTwoCard.cost);
                 default:
                     break;
             }
@@ -122,5 +138,14 @@ export class BattleField {
 
     toDiscard(player, card) {
         this.discard[player].push(card);
+    }
+
+    resetCumulativeCost(slot) {
+        Object.values(PLAYERS).forEach(p => this.cumulativeCosts[p][slot] = 0);
+    }
+
+    setCumulativeCost(slot, costPlayerOne, costPlayerTwo) {
+        this.cumulativeCosts[PLAYERS.ONE][slot] += costPlayerOne;
+        this.cumulativeCosts[PLAYERS.TWO][slot] += costPlayerTwo;
     }
 }
