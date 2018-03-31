@@ -14,11 +14,11 @@ test('battle round test', () => {
 
     const battleField = new BattleField(playerOne, playerTwo);
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.LEFT);
-    battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.LEFT);
+    battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.CENTER);
     expect(battleField.isFull()).toBe(false);
 
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.CENTER);
-    battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.CENTER);
+    battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.LEFT);
     expect(battleField.isFull()).toBe(false);
 
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.RIGHT);
@@ -36,9 +36,9 @@ test('if draw, cost will be carried next turn', () => {
     const water = new Card({name: '', type: TYPES.WATER, cost});
 
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
-    battleField.playCard(PLAYERS.TWO, fire, SLOTS.LEFT);
-    battleField.playCard(PLAYERS.ONE, fire, SLOTS.CENTER);
     battleField.playCard(PLAYERS.TWO, fire, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.TWO, fire, SLOTS.LEFT);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.RIGHT);
     battleField.playCard(PLAYERS.TWO, fire, SLOTS.RIGHT);
     let result = battleField.resolve();
@@ -46,9 +46,9 @@ test('if draw, cost will be carried next turn', () => {
     expect(battleField.isOver()).toBe(result);
 
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
-    battleField.playCard(PLAYERS.TWO, water, SLOTS.LEFT);
-    battleField.playCard(PLAYERS.ONE, fire, SLOTS.CENTER);
     battleField.playCard(PLAYERS.TWO, water, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.TWO, water, SLOTS.LEFT);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.RIGHT);
     battleField.playCard(PLAYERS.TWO, water, SLOTS.RIGHT);
     result = battleField.resolve();

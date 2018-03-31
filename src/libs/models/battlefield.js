@@ -14,7 +14,7 @@ export const PLAYERS = {
 const FALLBACK_LIFE = 20;
 
 export class BattleField {
-    lastMove = null;
+    moves = [];
     players = {
         [PLAYERS.ONE]: null,
         [PLAYERS.TWO]: null
@@ -79,9 +79,24 @@ export class BattleField {
         }
     }
 
+    getLastMove() {
+        if (!this.moves.length) return null;
+        return this.moves[this.moves.length - 1];
+    }
+
     playCard(player, card, slot) {
+        if (this.moves.length === 1 && this.moves[0].slot === slot) {
+            return false;
+        }
+
+        const lastMove = this.getLastMove();
+        if (lastMove && lastMove.player === player) {
+            return false;
+        }
+
         this.slots[player][slot] = card;
-        this.lastMove = player;
+        this.moves.push({player, slot});
+        return true;
     }
 
     resolve() {
@@ -121,8 +136,9 @@ export class BattleField {
             Object.values(SLOTS).forEach(s => {
                 this.toDiscard(p, this.slots[p][s]);
                 this.slots[p][s] = null;
-            })
-        })
+            });
+        });
+        this.moves = [];
     }
 
     toDiscard(player, card) {
