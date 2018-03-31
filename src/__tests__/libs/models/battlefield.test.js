@@ -1,4 +1,4 @@
-import {BattleField, Deck, PLAYERS, SLOTS} from "../../../libs/models";
+import {BattleField, Card, Deck, PLAYERS, SLOTS, TYPES} from "../../../libs/models";
 import {cardGenerator} from "../../../libs/generators/cardGenerator";
 import {CARDS_IN_DECK} from "../../../config";
 
@@ -24,4 +24,34 @@ test('battle round test', () => {
     battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.RIGHT);
     battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.RIGHT);
     expect(battleField.isFull()).toBe(true);
+});
+
+
+test('if draw it will be payed next turn', () => {
+    const playerOne = {life: 20};
+    const playerTwo = {life: 20};
+    const cost = 10;
+    const battleField = new BattleField(playerOne, playerTwo);
+    const fire = new Card({name: '', type: TYPES.FIRE, cost});
+    const water = new Card({name: '', type: TYPES.WATER, cost});
+
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
+    battleField.playCard(PLAYERS.TWO, fire, SLOTS.LEFT);
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.TWO, fire, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.RIGHT);
+    battleField.playCard(PLAYERS.TWO, fire, SLOTS.RIGHT);
+    battleField.resolve();
+    expect(battleField.isOver()).toBe(false);
+
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
+    battleField.playCard(PLAYERS.TWO, water, SLOTS.LEFT);
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.TWO, water, SLOTS.CENTER);
+    battleField.playCard(PLAYERS.ONE, fire, SLOTS.RIGHT);
+    battleField.playCard(PLAYERS.TWO, water, SLOTS.RIGHT);
+    battleField.resolve();
+    expect(battleField.isOver()).toBe(true);
+    expect(battleField.result().winner).toBe(PLAYERS.TWO);
+    expect(battleField.status()[PLAYERS.ONE]).toBe(-40);
 });

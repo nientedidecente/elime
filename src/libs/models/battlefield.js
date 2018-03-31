@@ -80,7 +80,6 @@ export class BattleField {
     }
 
     playCard(player, card, slot) {
-        console.log(`${player} plays ${card.type} ${card.cost} in ${slot}`);
         this.slots[player][slot] = card;
         this.lastMove = player;
     }
@@ -90,27 +89,17 @@ export class BattleField {
             const playerOneCard = this.slots[PLAYERS.ONE][s];
             const playerTwoCard = this.slots[PLAYERS.TWO][s];
             const result = RESOLVE_MATRIX[playerOneCard.type][playerTwoCard.type];
-            switch (result) {
-                case 1:
-                    this.lifeCounters[PLAYERS.TWO] -= (playerTwoCard.cost + this.cumulativeCosts[PLAYERS.TWO][s]);
-                    this.resetCumulativeCost(s);
-                    break;
-                case -1:
-                    this.lifeCounters[PLAYERS.ONE] -= (playerOneCard.cost + this.cumulativeCosts[PLAYERS.ONE][s]);
-                    this.resetCumulativeCost(s);
-                    break;
-                case 0:
-                    this.setCumulativeCost(s, playerOneCard.cost, playerTwoCard.cost);
-                default:
-                    break;
-            }
-            if (this.isOver()) {
-                return this.result();
+            if (result === 0) {
+                this.setCumulativeCost(s, playerOneCard.cost, playerTwoCard.cost);
+            } else {
+                const loser = result === 1 ? PLAYERS.TWO : PLAYERS.ONE;
+                this.lifeCounters[loser] -= (playerTwoCard.cost + this.cumulativeCosts[loser][s]);
+                this.resetCumulativeCost(s);
             }
         });
 
         this.reset();
-        return false;
+        return this.isOver();
     }
 
     isOver() {
