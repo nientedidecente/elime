@@ -1,4 +1,4 @@
-import {Card, TYPES} from "../../../libs/models/index";
+import {Card, TYPES} from "../../../libs/models";
 import {cardGenerator} from "../../../libs/generators/cardGenerator";
 
 test('a card can be instantiated correctly', () => {
@@ -6,7 +6,7 @@ test('a card can be instantiated correctly', () => {
     expect(card).toBeTruthy();
 });
 
-test('generator forces fiels', () => {
+test('generator forces fields', () => {
     const card = cardGenerator.generateOne({type: TYPES.PAPER, name: 'banana'});
     expect(card.type).toBe(TYPES.PAPER);
     expect(card.name).toBe('banana');

@@ -4,7 +4,7 @@ export const TYPES = {
     SCISSOR: 'scissor'
 };
 
-export const MATCHES = {
+export const RESOLVE_MATRIX = {
     [TYPES.ROCK]: {
         [TYPES.ROCK]: 0,
         [TYPES.PAPER]: -1,

@@ -12,4 +12,12 @@ export class Deck {
     shuffle() {
         this.cards = arrayShuffle(this.cards);
     }
+
+    cardLeft() {
+        return this.cards.length;
+    }
+
+    draw() {
+        this.cards.pop();
+    }
 }
