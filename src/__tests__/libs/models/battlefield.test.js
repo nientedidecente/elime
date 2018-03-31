@@ -13,25 +13,17 @@ test('battle round test', () => {
     const playerTwo = {life: 20};
 
     const battleField = new BattleField(playerOne, playerTwo);
-    let result = null;
-    let finalStatus = null;
-    let index = 1;
-    console.log(`dio`);
-    while (!battleField.isOver() || index < 5) {
-        console.log(`round ${index}: isFull ${!battleField.isFull()}`);
-        while (!battleField.isFull()) {
-            Object.values(SLOTS).forEach(s => {
-                Object.values(PLAYERS).forEach(p => {
-                    const card = deck.draw();
-                    console.log(`${p} plays ${card} in  ${s}`);
-                    battleField.playCard(p, card, s);
-                });
-            });
-        }
-        result = battleField.resolve();
-        finalStatus = battleField.status();
-        console.log(result, status);
-        index++;
-    }
-    console.log('FinalResult', result);
+    battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.LEFT);
+    battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.LEFT);
+
+    battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.CENTER);
+    battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.CENTER);
+
+    battleField.playCard(PLAYERS.ONE, deck.draw(), SLOTS.RIGHT);
+    battleField.playCard(PLAYERS.TWO, deck.draw(), SLOTS.RIGHT);
+
+    expect(battleField.isFull()).toBe(true);
+
+    battleField.resolve();
+    console.log(battleField.status());
 });

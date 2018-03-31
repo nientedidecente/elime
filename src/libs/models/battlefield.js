@@ -67,10 +67,7 @@ export class BattleField {
     }
 
     playCard(player, card, slot) {
-        if (this.slots[player][slot]) {
-            return false;
-        }
-
+        console.log(`${player} plays ${card.type} ${card.cost} in ${slot}`);
         this.slots[player][slot] = card;
         this.lastMove = player;
     }
