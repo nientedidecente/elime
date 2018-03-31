@@ -1,23 +1,23 @@
 export const TYPES = {
-    ROCK: 'rock',
-    PAPER: 'paper',
-    SCISSOR: 'scissor'
+    EARTH: 'earth',
+    FIRE: 'fire',
+    WATER: 'water'
 };
 
 export const RESOLVE_MATRIX = {
-    [TYPES.ROCK]: {
-        [TYPES.ROCK]: 0,
-        [TYPES.PAPER]: -1,
-        [TYPES.SCISSOR]: 1
+    [TYPES.EARTH]: {
+        [TYPES.EARTH]: 0,
+        [TYPES.FIRE]: -1,
+        [TYPES.WATER]: 1
     },
-    [TYPES.PAPER]: {
-        [TYPES.ROCK]: 1,
-        [TYPES.PAPER]: 0,
-        [TYPES.SCISSOR]: -1
+    [TYPES.FIRE]: {
+        [TYPES.EARTH]: 1,
+        [TYPES.FIRE]: 0,
+        [TYPES.WATER]: -1
     },
-    [TYPES.SCISSOR]: {
-        [TYPES.ROCK]: -1,
-        [TYPES.PAPER]: 1,
-        [TYPES.SCISSOR]: 0
+    [TYPES.WATER]: {
+        [TYPES.EARTH]: -1,
+        [TYPES.FIRE]: 1,
+        [TYPES.WATER]: 0
     }
 };
