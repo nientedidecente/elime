@@ -35,6 +35,8 @@ test('if draw, cost will be carried next turn', () => {
     const battleField = new BattleField(playerOne, playerTwo);
     const fire = new Card({name: '', type: TYPES.FIRE, cost});
     const water = new Card({name: '', type: TYPES.WATER, cost});
+    expect(battleField.discard[PLAYERS.ONE].length).toBe(0);
+    expect(battleField.discard[PLAYERS.TWO].length).toBe(0);
     battleField.forceTurn(PLAYERS.ONE);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, fire, SLOTS.CENTER);
@@ -45,6 +47,8 @@ test('if draw, cost will be carried next turn', () => {
     let result = battleField.resolve();
     expect(result).toBe(false);
     expect(battleField.isOver()).toBe(result);
+    expect(battleField.discard[PLAYERS.ONE].length).toBe(3);
+    expect(battleField.discard[PLAYERS.TWO].length).toBe(3);
 
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, water, SLOTS.CENTER);
@@ -56,5 +60,7 @@ test('if draw, cost will be carried next turn', () => {
     expect(result).toBe(true);
     expect(battleField.isOver()).toBe(result);
     expect(battleField.result().winner).toBe(PLAYERS.TWO);
+    expect(battleField.discard[PLAYERS.ONE].length).toBe(6);
+    expect(battleField.discard[PLAYERS.TWO].length).toBe(6);
     expect(battleField.status()[PLAYERS.ONE]).toBe(-40);
 });
