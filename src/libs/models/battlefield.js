@@ -1,4 +1,4 @@
-import {randomizer} from 'uvk';
+import {randomizer, range} from 'uvk';
 import {RESOLVE_MATRIX} from "./types";
 
 export const SLOTS = {
@@ -13,11 +13,16 @@ export const PLAYERS = {
 };
 
 const FALLBACK_LIFE = 20;
+const CARDS_IN_HAND = 4;
 
 export class BattleField {
     turn = null;
     oldMoved = [];
     moves = [];
+    hands = {
+        [PLAYERS.ONE]: [],
+        [PLAYERS.TWO]: [],
+    };
     players = {
         [PLAYERS.ONE]: null,
         [PLAYERS.TWO]: null
@@ -62,6 +67,16 @@ export class BattleField {
 
         this.lifeCounters[PLAYERS.ONE] = playerOne.life || FALLBACK_LIFE;
         this.lifeCounters[PLAYERS.TWO] = playerTwo.life || FALLBACK_LIFE;
+    }
+
+    setHand(player, deck) {
+        range(CARDS_IN_HAND).forEach(() => {
+            this.hands[player].push(deck.draw());
+        });
+    }
+
+    getHand(player) {
+        return this.hands[player];
     }
 
     forceTurn(player) {

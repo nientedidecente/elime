@@ -64,3 +64,17 @@ test('if draw, cost will be carried next turn', () => {
     expect(battleField.discard[PLAYERS.TWO].length).toBe(6);
     expect(battleField.status()[PLAYERS.ONE]).toBe(-40);
 });
+
+
+test('set hands will get the right number of cards', () => {
+    const playerOne = {life: 20};
+    const playerTwo = {life: 20};
+    const battleField = new BattleField(playerOne, playerTwo);
+    const deckOne = new Deck(cardGenerator.generate());
+    const deckTwo = new Deck(cardGenerator.generate());
+    battleField.setHand(PLAYERS.ONE, deckOne);
+    battleField.setHand(PLAYERS.TWO, deckTwo);
+
+    expect(battleField.hands[PLAYERS.ONE].length).toBe(4);
+    expect(battleField.hands[PLAYERS.TWO].length).toBe(4);
+});
