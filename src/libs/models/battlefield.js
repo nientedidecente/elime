@@ -126,7 +126,7 @@ export class BattleField {
                 this.players[loser].life -= (loserCard.cost + this.cumulativeCosts[loser][s]);
 
                 this.players[loser].toDiscard(loserCard); // losing card goes to discard pile
-                this.players[winner].hand.push(winnerCard); // winning card goes back to hand
+                this.players[winner].toHand(winnerCard); // winning card goes back to hand
                 this.resetCumulativeCost(s);
             }
         });

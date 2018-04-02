@@ -25,6 +25,7 @@ export class Player {
 
     status() {
         return {
+            id: this.id,
             name: this.name,
             life: this.life,
             hand: this.hand.length,
