@@ -44,10 +44,6 @@ export class BattleField {
         this.players[player].setHand();
     }
 
-    getHand(player) {
-        return this.players[player].hand;
-    }
-
     forceTurn(player) {
         this.turn = player;
     }
