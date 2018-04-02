@@ -70,7 +70,7 @@ export class BattleField {
     }
 
     setHand(player, deck) {
-        range(CARDS_IN_HAND).forEach(() => {
+        range(CARDS_IN_HAND - this.getHand(player).length).forEach(() => {
             this.hands[player].push(deck.draw());
         });
     }
@@ -145,8 +145,14 @@ export class BattleField {
             if (result === 0) {
                 this.setCumulativeCost(s, playerOneCard.cost, playerTwoCard.cost);
             } else {
-                const loser = result === 1 ? PLAYERS.TWO : PLAYERS.ONE;
-                this.lifeCounters[loser] -= (playerTwoCard.cost + this.cumulativeCosts[loser][s]);
+                const loser = (result === 1) ? PLAYERS.TWO : PLAYERS.ONE;
+                const winner = (result === 1) ? PLAYERS.ONE : PLAYERS.TWO;
+                const loserCard = loser === PLAYERS.ONE ? playerOneCard : playerTwoCard;
+                const winnerCard = winner === PLAYERS.ONE ? playerOneCard : playerTwoCard;
+                this.lifeCounters[loser] -= (loserCard.cost + this.cumulativeCosts[loser][s]);
+
+                this.toDiscard(loser, loserCard); // losing card goes to discard pile
+                this.hands[winner].push(winnerCard); // winning card goes back to hand
                 this.resetCumulativeCost(s);
             }
         });
@@ -170,11 +176,9 @@ export class BattleField {
     }
 
     reset() {
-        Object.values(PLAYERS).forEach(p => {
-            Object.values(SLOTS).forEach(s => {
-                this.toDiscard(p, this.slots[p][s]);
-                this.slots[p][s] = null;
-            });
+        Object.values(SLOTS).forEach(s => {
+            this.slots[PLAYERS.ONE][s] = null;
+            this.slots[PLAYERS.TWO][s] = null;
         });
         this.oldMoved = [...this.moves];
         this.moves = [];
