@@ -9,8 +9,8 @@ test('battle round test', () => {
 
     deck.shuffle();
 
-    const playerOne = {life: 20};
-    const playerTwo = {life: 20};
+    const playerOne = {name: 'uno', deck};
+    const playerTwo = {name: 'due', deck};
 
     const battleField = new BattleField(playerOne, playerTwo);
     battleField.forceTurn(PLAYERS.ONE);
@@ -29,14 +29,16 @@ test('battle round test', () => {
 
 
 test('if draw, cost will be carried next turn', () => {
-    const playerOne = {life: 20};
-    const playerTwo = {life: 20};
+    const cards = cardGenerator.generate(CARDS_IN_DECK);
+    const deck = new Deck(cards);
+    const playerOne = {name: 'uno', deck};
+    const playerTwo = {name: 'due', deck};
     const cost = 10;
     const battleField = new BattleField(playerOne, playerTwo);
     const fire = new Card({name: '', type: TYPES.FIRE, cost});
     const water = new Card({name: '', type: TYPES.WATER, cost});
-    expect(battleField.discard[PLAYERS.ONE].length).toBe(0);
-    expect(battleField.discard[PLAYERS.TWO].length).toBe(0);
+    expect(battleField.players[PLAYERS.ONE].discardPile.length).toBe(0);
+    expect(battleField.players[PLAYERS.TWO].discardPile.length).toBe(0);
     battleField.forceTurn(PLAYERS.ONE);
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, fire, SLOTS.CENTER);
@@ -47,8 +49,8 @@ test('if draw, cost will be carried next turn', () => {
     let result = battleField.resolve();
     expect(result).toBe(false);
     expect(battleField.isOver()).toBe(result);
-    expect(battleField.discard[PLAYERS.ONE].length).toBe(0);
-    expect(battleField.discard[PLAYERS.TWO].length).toBe(0);
+    expect(battleField.players[PLAYERS.ONE].discardPile.length).toBe(0);
+    expect(battleField.players[PLAYERS.TWO].discardPile.length).toBe(0);
 
     battleField.playCard(PLAYERS.ONE, fire, SLOTS.LEFT);
     battleField.playCard(PLAYERS.TWO, water, SLOTS.CENTER);
@@ -60,22 +62,22 @@ test('if draw, cost will be carried next turn', () => {
     expect(result).toBe(true);
     expect(battleField.isOver()).toBe(result);
     expect(battleField.result().winner).toBe(PLAYERS.TWO);
-    expect(battleField.discard[PLAYERS.ONE].length).toBe(3); // lost three slots
-    expect(battleField.discard[PLAYERS.TWO].length).toBe(0); // won three slots
-    expect(battleField.hands[PLAYERS.TWO].length).toBe(3); // cards return to hand
-    expect(battleField.status()[PLAYERS.ONE]).toBe(-40);
+    expect(battleField.players[PLAYERS.ONE].discardPile.length).toBe(3); // lost three slots
+    expect(battleField.players[PLAYERS.TWO].discardPile.length).toBe(0); // won three slots
+    expect(battleField.players[PLAYERS.TWO].hand.length).toBe(3); // cards return to hand
+    expect(battleField.status()[PLAYERS.ONE].life).toBe(-40);
 });
 
 
 test('set hands will get the right number of cards', () => {
-    const playerOne = {life: 20};
-    const playerTwo = {life: 20};
-    const battleField = new BattleField(playerOne, playerTwo);
     const deckOne = new Deck(cardGenerator.generate());
+    const playerOne = {life: 20, deck: deckOne};
     const deckTwo = new Deck(cardGenerator.generate());
-    battleField.setHand(PLAYERS.ONE, deckOne);
-    battleField.setHand(PLAYERS.TWO, deckTwo);
+    const playerTwo = {life: 20, deck: deckTwo};
+    const battleField = new BattleField(playerOne, playerTwo);
+    battleField.setHand(PLAYERS.ONE);
+    battleField.setHand(PLAYERS.TWO);
 
-    expect(battleField.hands[PLAYERS.ONE].length).toBe(4);
-    expect(battleField.hands[PLAYERS.TWO].length).toBe(4);
+    expect(battleField.players[PLAYERS.ONE].hand.length).toBe(4);
+    expect(battleField.players[PLAYERS.TWO].hand.length).toBe(4);
 });

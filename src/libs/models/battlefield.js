@@ -1,5 +1,6 @@
-import {randomizer, range} from 'uvk';
+import {randomizer} from 'uvk';
 import {RESOLVE_MATRIX} from "./types";
+import {Player} from "./player";
 
 export const SLOTS = {
     LEFT: 'left',
@@ -12,42 +13,15 @@ export const PLAYERS = {
     TWO: 'player2',
 };
 
-const FALLBACK_LIFE = 20;
-const CARDS_IN_HAND = 4;
 
 export class BattleField {
     turn = null;
     oldMoved = [];
     moves = [];
-    hands = {
-        [PLAYERS.ONE]: [],
-        [PLAYERS.TWO]: [],
-    };
     players = {
         [PLAYERS.ONE]: null,
         [PLAYERS.TWO]: null
     };
-    discard = {
-        [PLAYERS.ONE]: [],
-        [PLAYERS.TWO]: []
-    };
-    lifeCounters = {
-        [PLAYERS.ONE]: 0,
-        [PLAYERS.TWO]: 0
-    };
-    slots = {
-        [PLAYERS.ONE]: {
-            [SLOTS.LEFT]: null,
-            [SLOTS.CENTER]: null,
-            [SLOTS.RIGHT]: null,
-        },
-        [PLAYERS.TWO]: {
-            [SLOTS.LEFT]: null,
-            [SLOTS.CENTER]: null,
-            [SLOTS.RIGHT]: null,
-        }
-    };
-
     cumulativeCosts = {
         [PLAYERS.ONE]: {
             [SLOTS.LEFT]: 0,
@@ -62,21 +36,16 @@ export class BattleField {
     };
 
     constructor(playerOne = {}, playerTwo = {}) {
-        this.players[PLAYERS.ONE] = playerOne.name || PLAYERS.ONE;
-        this.players[PLAYERS.TWO] = playerTwo.name || PLAYERS.TWO;
-
-        this.lifeCounters[PLAYERS.ONE] = playerOne.life || FALLBACK_LIFE;
-        this.lifeCounters[PLAYERS.TWO] = playerTwo.life || FALLBACK_LIFE;
+        this.players[PLAYERS.ONE] = new Player(PLAYERS.ONE, {...playerOne});
+        this.players[PLAYERS.TWO] = new Player(PLAYERS.TWO, {...playerTwo});
     }
 
-    setHand(player, deck) {
-        range(CARDS_IN_HAND - this.getHand(player).length).forEach(() => {
-            this.hands[player].push(deck.draw());
-        });
+    setHand(player) {
+        this.players[player].setHand();
     }
 
     getHand(player) {
-        return this.hands[player];
+        return this.players[player].hand;
     }
 
     forceTurn(player) {
@@ -101,7 +70,7 @@ export class BattleField {
         let emptySlots = 0;
         Object.values(PLAYERS).forEach(p => {
             Object.values(SLOTS).forEach(s => {
-                if (!this.slots[p][s]) {
+                if (!this.players[p].slots[s]) {
                     emptySlots += 1;
                 }
             })
@@ -111,7 +80,12 @@ export class BattleField {
 
     status() {
         return {
-            ...this.lifeCounters
+            [PLAYERS.ONE]: {
+                ...this.players[PLAYERS.ONE].status()
+            },
+            [PLAYERS.TWO]: {
+                ...this.players[PLAYERS.TWO].status()
+            }
         }
     }
 
@@ -132,15 +106,15 @@ export class BattleField {
             return false;
         }
 
-        this.slots[player][slot] = card;
+        this.players[player].play(card, slot);
         this.moves.push({player, slot});
         return true;
     }
 
     resolve() {
         Object.values(SLOTS).forEach(s => {
-            const playerOneCard = this.slots[PLAYERS.ONE][s];
-            const playerTwoCard = this.slots[PLAYERS.TWO][s];
+            const playerOneCard = this.players[PLAYERS.ONE].slots[s];
+            const playerTwoCard = this.players[PLAYERS.TWO].slots[s];
             const result = RESOLVE_MATRIX[playerOneCard.type][playerTwoCard.type];
             if (result === 0) {
                 this.setCumulativeCost(s, playerOneCard.cost, playerTwoCard.cost);
@@ -149,10 +123,10 @@ export class BattleField {
                 const winner = (result === 1) ? PLAYERS.ONE : PLAYERS.TWO;
                 const loserCard = loser === PLAYERS.ONE ? playerOneCard : playerTwoCard;
                 const winnerCard = winner === PLAYERS.ONE ? playerOneCard : playerTwoCard;
-                this.lifeCounters[loser] -= (loserCard.cost + this.cumulativeCosts[loser][s]);
+                this.players[loser].life -= (loserCard.cost + this.cumulativeCosts[loser][s]);
 
-                this.toDiscard(loser, loserCard); // losing card goes to discard pile
-                this.hands[winner].push(winnerCard); // winning card goes back to hand
+                this.players[loser].toDiscard(loserCard); // losing card goes to discard pile
+                this.players[winner].hand.push(winnerCard); // winning card goes back to hand
                 this.resetCumulativeCost(s);
             }
         });
@@ -162,11 +136,11 @@ export class BattleField {
     }
 
     isOver() {
-        return (this.lifeCounters[PLAYERS.ONE] <= 0 || this.lifeCounters[PLAYERS.TWO] <= 0);
+        return (this.players[PLAYERS.ONE].life <= 0 || this.players[PLAYERS.TWO].life <= 0);
     }
 
     result() {
-        const winner = this.lifeCounters[PLAYERS.ONE] > this.lifeCounters[PLAYERS.TWO]
+        const winner = this.players[PLAYERS.ONE].life > this.players[PLAYERS.TWO].life
             ? PLAYERS.ONE : PLAYERS.TWO;
         const loser = winner === PLAYERS.ONE ? PLAYERS.TWO : PLAYERS.ONE;
         return {
@@ -177,15 +151,11 @@ export class BattleField {
 
     reset() {
         Object.values(SLOTS).forEach(s => {
-            this.slots[PLAYERS.ONE][s] = null;
-            this.slots[PLAYERS.TWO][s] = null;
+            this.players[PLAYERS.ONE].slots[s] = null;
+            this.players[PLAYERS.TWO].slots[s] = null;
         });
         this.oldMoved = [...this.moves];
         this.moves = [];
-    }
-
-    toDiscard(player, card) {
-        this.discard[player].push(card);
     }
 
     resetCumulativeCost(slot) {
