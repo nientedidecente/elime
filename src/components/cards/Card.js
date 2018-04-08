@@ -11,10 +11,16 @@ const colourMapping = {
 
 class Card extends Component {
     render() {
-        const {card} = this.props;
-        console.log(card);
+        const {card, covered} = this.props;
+        if (covered) {
+            return (
+                <SCard style={{margin: 'auto'}}>
+                    <Icon element={TYPES.FIRE}/><Icon element={TYPES.WATER}/><Icon element={TYPES.EARTH}/>
+                </SCard>
+            );
+        }
         return (
-            <SCard color={colourMapping[card.type] || null}>
+            <SCard color={colourMapping[card.type] || null} style={{margin: 'auto'}}>
                 <Icon element={card.type}/>
                 <SCard.Content>
                     <SCard.Header>
