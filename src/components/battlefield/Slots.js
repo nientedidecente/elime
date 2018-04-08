@@ -8,7 +8,7 @@ class Slots extends Component {
         return (
             <Grid columns="equal">
                 <Grid.Row>
-                    {slots.map(c => <Grid.Column><Slot card={c}/></Grid.Column>)}
+                    {slots.map((c, i) => <Grid.Column key={i}><Slot card={c}/></Grid.Column>)}
                 </Grid.Row>
             </Grid>
         );
