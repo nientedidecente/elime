@@ -13,5 +13,5 @@ const elementsMapping = {
     default: fallback
 };
 
-const Icon = ({element}) => <img className="elementIcon" src={elementsMapping[element] || elementsMapping.default}/>;
+const Icon = ({element}) => <img className="elementIcon" src={elementsMapping[element] || elementsMapping.default} alt={element}/>;
 export {Icon};
