@@ -13,7 +13,6 @@ class Battlefield extends Component {
                 c.push(null);
             }
         });
-
         return (
             <Grid style={{height: '110vh'}}>
                 <Grid.Row>
