@@ -1,13 +1,19 @@
 import React, {Component} from 'react';
+import {randomizer} from 'uvk';
 import {Slots} from "../battlefield";
 import {Grid, Segment} from "semantic-ui-react";
 import {cardGenerator} from "../../libs/generators/cardGenerator";
 
 class Battlefield extends Component {
     render() {
-        const cardsOne = cardGenerator.generate(3);
-        const cardsTwo = cardGenerator.generate(2);
-        cardsTwo.push(null);
+        const cardsOne = cardGenerator.generate(randomizer.int(0, 3));
+        const cardsTwo = cardGenerator.generate(randomizer.int(0, 3));
+        [cardsOne, cardsTwo].forEach(c => {
+            while (c.length !== 3) {
+                c.push(null);
+            }
+        });
+
         return (
             <Grid style={{height: '110vh'}}>
                 <Grid.Row>
