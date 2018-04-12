@@ -6,7 +6,8 @@ import {cardGenerator} from "../../libs/generators/cardGenerator";
 class Battlefield extends Component {
     render() {
         const cardsOne = cardGenerator.generate(3);
-        const cardsTwo = cardGenerator.generate(3);
+        const cardsTwo = cardGenerator.generate(2);
+        cardsTwo.push(null);
         return (
             <Grid style={{height: '110vh'}}>
                 <Grid.Row>

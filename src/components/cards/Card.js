@@ -3,6 +3,8 @@ import {Card as SCard} from 'semantic-ui-react';
 import {Icon} from "./elements/Icon";
 import {TYPES} from "../../libs/models";
 
+import styles from './styles';
+
 const colourMapping = {
     [TYPES.WATER]: 'blue',
     [TYPES.FIRE]: 'red',
@@ -20,7 +22,7 @@ class Card extends Component {
             );
         }
         return (
-            <SCard color={colourMapping[card.type] || null} style={{margin: 'auto'}}>
+            <SCard color={colourMapping[card.type] || null} style={styles.cardWrapper}>
                 <Icon element={card.type}/>
                 <SCard.Content>
                     <SCard.Header>
