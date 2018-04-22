@@ -1,5 +1,6 @@
 import {BattleField, Deck, PLAYERS} from "../../../libs/models";
 import {cardGenerator} from "../../../libs/generators/cardGenerator";
+import {cloneObject} from "../../../libs/utils";
 
 export const UPDATE_BATTLEFIELD = 'update_battlefield';
 export const SELECT_CARD = 'select_card';
@@ -29,6 +30,19 @@ export const selectCard = selectedCard => {
         type: SELECT_CARD,
         data: {
             selectedCard
+        }
+    }
+};
+
+export const playCard = (battlefield, playerId, card, slot) => {
+    console.log(playerId, card, slot);
+    const ret = battlefield.playCard(playerId, card, slot);
+    console.log(ret);
+    return {
+        type: UPDATE_BATTLEFIELD,
+        data: {
+            battlefield: cloneObject(BattleField, battlefield),
+            selectedCard: null
         }
     }
 };

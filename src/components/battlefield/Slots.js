@@ -4,13 +4,18 @@ import {Grid} from "semantic-ui-react";
 
 class Slots extends Component {
     render() {
-        const {slots} = this.props;
+        const {slots, selectable, playerId} = this.props;
         return (
             <Grid columns="equal">
                 <Grid.Row>
-                    {slots.map((c, i) => (
-                        <Grid.Column key={i}>
-                            <Slot card={c}/>
+                    {Object.keys(slots).map(k => (
+                        <Grid.Column key={k}>
+                            <Slot
+                                card={slots[k]}
+                                id={k}
+                                playerId={playerId}
+                                selectable={selectable && slots[k] === null}
+                            />
                         </Grid.Column>
                     ))}
                 </Grid.Row>

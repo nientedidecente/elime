@@ -22,7 +22,11 @@ class Card extends Component {
             );
         }
         return (
-            <SCard color={colourMapping[card.type] || null} style={styles.cardWrapper} onClick={() => onClick()}>
+            <SCard
+                color={colourMapping[card.type] || null}
+                style={styles.cardWrapper}
+                onClick={onClick ? () => onClick() : null}
+            >
                 <Icon element={card.type}/>
                 <SCard.Content>
                     <SCard.Header>

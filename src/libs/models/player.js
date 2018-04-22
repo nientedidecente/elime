@@ -57,6 +57,7 @@ class Player {
     }
 
     play(card, slot) {
+        this.hand = this.hand.filter(c => c !== card);
         this.slots[slot] = card;
     }
 }

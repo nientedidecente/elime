@@ -63,7 +63,7 @@ class PlayerStatusView extends Component {
                                 <Header>
                                     {player.hand}
                                     <Header.Subheader>
-                                        <Button onClick={() => this.showHand()}>
+                                        <Button onClick={() => this.showHand()} disabled={!playersTurn}>
                                             Hand
                                         </Button>
                                     </Header.Subheader>
