@@ -4,7 +4,7 @@ import {SLOTS} from "./battlefield";
 const FALLBACK_LIFE = 20;
 const CARD_IN_HAND = 4;
 
-export class Player {
+class Player {
     name = null;
     deck = null;
     hand = [];
@@ -29,7 +29,8 @@ export class Player {
             name: this.name,
             life: this.life,
             hand: this.hand.length,
-            deck: this.deck.cardLeft()
+            deck: this.deck.cardLeft(),
+            slots: this.slots
         }
     }
 
@@ -58,5 +59,6 @@ export class Player {
     play(card, slot) {
         this.slots[slot] = card;
     }
-
 }
+
+export {Player}

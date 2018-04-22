@@ -5,8 +5,14 @@ import {Battlefield} from "./components/views";
 import './App.css';
 
 import {store} from './store';
+import {initGame} from "./store/actions/game";
 
 class App extends Component {
+
+    componentWillMount() {
+        store.dispatch(initGame())
+    }
+
     render() {
         return (
             <Provider store={store}>

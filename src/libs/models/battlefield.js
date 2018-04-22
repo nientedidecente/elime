@@ -14,7 +14,7 @@ export const PLAYERS = {
 };
 
 
-export class BattleField {
+class BattleField {
     turn = null;
     oldMoved = [];
     moves = [];
@@ -163,3 +163,5 @@ export class BattleField {
         this.cumulativeCosts[PLAYERS.TWO][slot] += costPlayerTwo;
     }
 }
+
+export {BattleField}
