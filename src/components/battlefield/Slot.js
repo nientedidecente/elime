@@ -5,10 +5,10 @@ import styles from "../cards/styles";
 
 class Slot extends Component {
     render() {
-        const {card} = this.props;
+        const {card, onClick} = this.props;
         return (
             <Segment>
-                {card && <Card card={card}/>}
+                {card && <Card card={card} onClick={() => onClick()}/>}
                 {!card && <SCard style={styles.cardWrapper}/>}
             </Segment>
         );

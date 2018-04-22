@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Header, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {Slot} from "./Slot";
+import {selectCard} from "../../store/actions/game";
 
 class PlayerStatusView extends Component {
     state = {
@@ -16,13 +17,24 @@ class PlayerStatusView extends Component {
         this.setState({handShown: false})
     }
 
+    selectCard(card) {
+        this.closeHand();
+        this.props.selectCard(card);
+    }
+
     render() {
-        const {player, playersTurn, local, battlefield} = this.props;
+        const {player, playersTurn, local, battlefield, selectedCard} = this.props;
         const {handShown} = this.state;
+        const canPlay = selectedCard === null && local;
+
         if (handShown) {
             return (
                 <Segment.Group horizontal>
-                    {battlefield.getPlayerHand(player.id).map(c => <Slot card={c}/>)}
+                    {
+                        battlefield.getPlayerHand(player.id).map((c, i) => (
+                            <Slot key={i} card={c} onClick={() => this.selectCard(c)}/>
+                        ))
+                    }
                     <Button onClick={() => this.closeHand()}>X</Button>
                 </Segment.Group>
             );
@@ -47,7 +59,7 @@ class PlayerStatusView extends Component {
                 <Segment>
                     <Segment.Group>
                         <Segment>
-                            {local && (
+                            {canPlay && (
                                 <Header>
                                     {player.hand}
                                     <Header.Subheader>
@@ -57,12 +69,14 @@ class PlayerStatusView extends Component {
                                     </Header.Subheader>
                                 </Header>)
                             }
-                            {!local && (<Header>
-                                {player.hand}
-                                <Header.Subheader>
-                                    Hand
-                                </Header.Subheader>
-                            </Header>)}
+                            {!canPlay && (
+                                <Header>
+                                    {player.hand}
+                                    <Header.Subheader>
+                                        Hand
+                                    </Header.Subheader>
+                                </Header>
+                            )}
 
                         </Segment>
                         <Segment>
@@ -81,11 +95,15 @@ class PlayerStatusView extends Component {
 }
 
 const stateToProps = ({game}) => {
-    const {battlefield} = game;
-    return {battlefield};
+    const {battlefield, selectedCard} = game;
+    return {battlefield, selectedCard};
 };
 const dispatchToProps = dispatch => {
-    return {};
+    return {
+        selectCard(card) {
+            dispatch(selectCard(card))
+        }
+    };
 };
 const PlayerStatus = connect(stateToProps, dispatchToProps)(PlayerStatusView);
 

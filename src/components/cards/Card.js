@@ -13,7 +13,7 @@ const colourMapping = {
 
 class Card extends Component {
     render() {
-        const {card, covered} = this.props;
+        const {card, covered, onClick} = this.props;
         if (covered) {
             return (
                 <SCard style={{margin: 'auto'}}>
@@ -22,7 +22,7 @@ class Card extends Component {
             );
         }
         return (
-            <SCard color={colourMapping[card.type] || null} style={styles.cardWrapper}>
+            <SCard color={colourMapping[card.type] || null} style={styles.cardWrapper} onClick={() => onClick()}>
                 <Icon element={card.type}/>
                 <SCard.Content>
                     <SCard.Header>
