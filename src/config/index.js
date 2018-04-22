@@ -1,1 +1,1 @@
-export const CARDS_IN_DECK = 20;
+export const CARDS_IN_DECK = 25;

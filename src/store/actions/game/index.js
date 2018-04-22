@@ -8,7 +8,7 @@ export const initGame = () => {
     const playersDeck = new Deck(cardGenerator.generate());
     const cpusDeck = new Deck(cardGenerator.generate());
     const player = {name: 'Human', life: 20, deck: playersDeck};
-    const cpu = {name: 'CPU', life: 20, deck: cpusDeck};
+    const cpu = {name: 'Computer', life: 20, deck: cpusDeck};
     const battlefield = new BattleField(player, cpu);
 
     battlefield.setHand(PLAYERS.ONE);

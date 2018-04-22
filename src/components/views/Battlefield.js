@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
-import {Slots} from "../battlefield";
-import {Grid, Segment} from "semantic-ui-react";
+import {PlayerStatus, Slots} from "../battlefield";
+import {Grid} from "semantic-ui-react";
 import {connect} from "react-redux";
 
 class BattlefieldView extends Component {
     render() {
         const {battlefield} = this.props;
-        const gameStatus = battlefield.status();
-        const {player2: cpu, player1: human} = gameStatus;
+        const {player2: cpu, player1: human} = battlefield.status();
         return (
             <Grid style={{height: '110vh'}}>
                 <Grid.Row>
                     <Grid.Column>
-                        <Segment>{cpu.name} - {cpu.life}</Segment>
+                        <PlayerStatus player={cpu}/>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
@@ -27,7 +26,7 @@ class BattlefieldView extends Component {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <Segment>{human.name} - {human.life}</Segment>
+                        <PlayerStatus player={human}/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
