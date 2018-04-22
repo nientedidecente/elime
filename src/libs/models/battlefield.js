@@ -40,6 +40,10 @@ class BattleField {
         this.players[PLAYERS.TWO] = new Player(PLAYERS.TWO, {...playerTwo});
     }
 
+    getPlayerHand(player) {
+        return this.players[player].hand;
+    }
+
     setHand(player) {
         this.players[player].setHand();
     }

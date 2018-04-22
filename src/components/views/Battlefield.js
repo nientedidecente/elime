@@ -33,7 +33,7 @@ class BattlefieldView extends Component {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <PlayerStatus playersTurn={turnMapping[turn] === 'human'} player={human}/>
+                        <PlayerStatus playersTurn={turnMapping[turn] === 'human'} player={human} local/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
