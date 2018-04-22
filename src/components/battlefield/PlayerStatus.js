@@ -3,13 +3,17 @@ import {Header, Segment} from "semantic-ui-react";
 
 class PlayerStatus extends Component {
     render() {
-        const {player} = this.props;
+        const {player, playersTurn} = this.props;
         return (
             <Segment.Group horizontal>
-                <Segment>
+                <Segment
+                    className="centeredContent"
+                    color={playersTurn ? "teal" : null}
+                    inverted={playersTurn}
+                >
                     <h3>{player.name}</h3>
                 </Segment>
-                <Segment>
+                <Segment className="centeredContent">
                     <Header as="h1">
                         {player.life}
                         <Header.Subheader>
