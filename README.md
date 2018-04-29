@@ -1,4 +1,7 @@
 # elime
+
+[![Build Status](https://travis-ci.org/vikkio88/elime.svg?branch=master)](https://travis-ci.org/vikkio88/elime)
+
 An opensource clone of [Earthcore: Shattered Elements](http://www.earthcoregame.com/).
 
 On the 31st of March 2018, this game was officially abandoned, so it is not possible to play it anymore, not even single player campaign, as the app will try to connect to a non-existing server.
