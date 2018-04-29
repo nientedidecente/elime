@@ -5,6 +5,9 @@ import {cloneObject} from "../../../libs/utils";
 export const UPDATE_BATTLEFIELD = 'update_battlefield';
 export const SELECT_CARD = 'select_card';
 
+export const CLEAR_MESSAGE = 'clear_message';
+export const ERROR_MESSAGE = 'error_message';
+
 
 export const initGame = () => {
     const playersDeck = new Deck(cardGenerator.generate());
@@ -36,13 +39,33 @@ export const selectCard = selectedCard => {
 
 export const playCard = (battlefield, playerId, card, slot) => {
     console.log(playerId, card, slot);
-    const ret = battlefield.playCard(playerId, card, slot);
-    console.log(ret);
+    const isMoveValid = battlefield.playCard(playerId, card, slot);
+    if (isMoveValid) {
+        return {
+            type: UPDATE_BATTLEFIELD,
+            data: {
+                battlefield: cloneObject(BattleField, battlefield),
+                selectedCard: null
+            }
+        }
+    }
+
     return {
-        type: UPDATE_BATTLEFIELD,
+        type: ERROR_MESSAGE,
         data: {
-            battlefield: cloneObject(BattleField, battlefield),
-            selectedCard: null
+            message: 'Cannot play this card in this slot',
+            error: true
+        }
+    }
+};
+
+
+export const clearMessage = () => {
+    return {
+        type: CLEAR_MESSAGE,
+        data: {
+            message: null,
+            error: false
         }
     }
 };

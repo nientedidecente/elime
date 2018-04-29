@@ -52,11 +52,13 @@ class BattleField {
         this.turn = player;
     }
 
+    endTurn(player) {
+        this.turn = player === PLAYERS.ONE ? PLAYERS.TWO : PLAYERS.ONE;
+    }
+
     getTurn() {
         if (this.turn) {
-            const player = this.turn;
-            this.turn = null;
-            return player;
+            return this.turn;
         }
 
         if (!this.oldMoved.length && !this.moves.length) {
@@ -108,6 +110,7 @@ class BattleField {
 
         this.players[player].play(card, slot);
         this.moves.push({player, slot});
+        this.endTurn(player);
         return true;
     }
 
