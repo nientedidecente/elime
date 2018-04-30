@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {PlayerStatus, Slots} from "../battlefield";
 import {Grid, Message} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {clearMessage} from "../../store/actions/game";
+import {clearMessage, playAiTurn} from "../../store/actions/game";
 
 class BattlefieldView extends Component {
     render() {
@@ -10,6 +10,9 @@ class BattlefieldView extends Component {
         const {player2: cpu, player1: human} = battlefield.status();
         const turn = battlefield.getTurn();
         console.log('turn', turn);
+        if (turn === cpu.id) {
+            this.props.playAiTurn(battlefield, cpu.id);
+        }
         return (
             <Grid style={{height: '110vh'}}>
                 <Grid.Row>
@@ -52,6 +55,9 @@ const dispatchToProps = dispatch => {
     return {
         dismissMessage() {
             dispatch(clearMessage());
+        },
+        playAiTurn(battlefield, id) {
+            dispatch(playAiTurn(battlefield, id));
         }
     };
 };

@@ -103,11 +103,16 @@ class BattleField {
         ) {
             return false;
         }
-        return this.getTurn() === player;
+
+        if (this.getTurn() !== player) {
+            return false;
+        }
+
+        return true;
     }
 
     playCard(player, card, slot) {
-        if (!this.isMoveValid()) {
+        if (!this.isMoveValid(player, card, slot)) {
             return false;
         }
 

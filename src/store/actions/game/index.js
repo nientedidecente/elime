@@ -1,4 +1,4 @@
-import {BattleField, Deck, PLAYERS} from "../../../libs/models";
+import {Ai, BattleField, Deck, PLAYERS} from "../../../libs/models";
 import {cardGenerator} from "../../../libs/generators/cardGenerator";
 import {cloneObject} from "../../../libs/utils";
 
@@ -35,6 +35,14 @@ export const selectCard = selectedCard => {
             selectedCard
         }
     }
+};
+
+export const playAiTurn = (battlefield, id) => {
+    return dispatch => {
+        const ai = new Ai(battlefield, id);
+        const move = ai.play();
+        setTimeout(() => dispatch(playCard(battlefield, move.player, move.card, move.slot)), 1000);
+    };
 };
 
 export const playCard = (battlefield, playerId, card, slot) => {
