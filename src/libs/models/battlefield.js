@@ -44,6 +44,10 @@ class BattleField {
         return this.players[player].hand;
     }
 
+    setHands() {
+        Object.keys(this.players).forEach(p => this.setHand(p));
+    }
+
     setHand(player) {
         this.players[player].setHand();
     }

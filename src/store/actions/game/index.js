@@ -69,6 +69,7 @@ export const playCard = (battlefield, playerId, card, slot) => {
 
 export const resolve = battlefield => {
     battlefield.resolve();
+    battlefield.setHands();
     return {
         type: UPDATE_BATTLEFIELD,
         data: {
