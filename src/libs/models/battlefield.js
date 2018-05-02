@@ -97,18 +97,11 @@ class BattleField {
     }
 
     isMoveValid(player, card, slot) {
-        if (
-            this.moves.length === 1
-            && this.moves[0].slot === slot
-        ) {
-            return false;
-        }
-
-        if (this.getTurn() !== player) {
-            return false;
-        }
-
-        return true;
+        return !(
+            (this.moves.length === 1 && this.moves[0].slot === slot)
+            || (this.getTurn() !== player)
+            || (this.players[player].slots[slot])
+        );
     }
 
     playCard(player, card, slot) {
