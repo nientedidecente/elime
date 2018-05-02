@@ -5,6 +5,8 @@ import {cloneObject} from "../../../libs/utils";
 export const UPDATE_BATTLEFIELD = 'update_battlefield';
 export const SELECT_CARD = 'select_card';
 
+export const FINISHED = 'finished';
+
 export const CLEAR_MESSAGE = 'clear_message';
 export const ERROR_MESSAGE = 'error_message';
 
@@ -46,38 +48,61 @@ export const playAiTurn = (battlefield, id) => {
 };
 
 export const playCard = (battlefield, playerId, card, slot) => {
-    console.log(playerId, card, slot);
-    const isMoveValid = battlefield.playCard(playerId, card, slot);
-    if (isMoveValid) {
-        return {
-            type: UPDATE_BATTLEFIELD,
-            data: {
-                battlefield: cloneObject(BattleField, battlefield),
-                selectedCard: null
+    return dispatch => {
+        const isMoveValid = battlefield.playCard(playerId, card, slot);
+        console.log(playerId, card, slot);
+        if (isMoveValid) {
+            dispatch(updateBattleField(battlefield));
+            if (battlefield.isFull()) {
+                setTimeout(() => dispatch(resolve(battlefield)), 1000);
             }
-        }
-    }
-
-    return {
-        type: ERROR_MESSAGE,
-        data: {
-            message: 'Cannot play this card in this slot',
-            error: true
+        } else {
+            dispatch(error('Cannot play that card in this slot'))
         }
     }
 };
 
 export const resolve = battlefield => {
-    battlefield.resolve();
-    battlefield.setHands();
+    return dispatch => {
+        battlefield.resolve();
+        battlefield.setHands();
+        if (battlefield.isOver()) {
+            dispatch(finished(battlefield.result()))
+        }
+        dispatch(updateBattleField(battlefield))
+    }
+};
+
+
+export const updateBattleField = battlefield => {
     return {
         type: UPDATE_BATTLEFIELD,
         data: {
-            battlefield: cloneObject(BattleField, battlefield)
+            battlefield: cloneObject(BattleField, battlefield),
+            selectedCard: null
         }
     }
 };
 
+
+export const error = message => {
+    return {
+        type: ERROR_MESSAGE,
+        data: {
+            message: message,
+            error: true
+        }
+    }
+};
+
+export const finished = result => {
+    return {
+        type: FINISHED,
+        data: {
+            finished: result
+        }
+    }
+};
 
 export const clearMessage = () => {
     return {

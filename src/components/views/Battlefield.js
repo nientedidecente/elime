@@ -2,20 +2,17 @@ import React, {Component} from 'react';
 import {PlayerStatus, Slots} from "../battlefield";
 import {Grid, Message} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {clearMessage, playAiTurn, resolve} from "../../store/actions/game";
+import {clearMessage, playAiTurn} from "../../store/actions/game";
 
 class BattlefieldView extends Component {
     render() {
-        const {battlefield, ui, dismissMessage, playAiTurn, resolve} = this.props;
+        const {battlefield, ui, dismissMessage, playAiTurn} = this.props;
         const {player2: cpu, player1: human} = battlefield.status();
         const isFull = battlefield.isFull();
         const turn = !isFull ? battlefield.getTurn() : null;
 
         console.log('turn', turn);
         console.log('isFull?', isFull);
-        if (isFull) {
-            resolve(battlefield)
-        }
 
         if (turn === cpu.id) {
             playAiTurn(battlefield, cpu.id);
@@ -65,9 +62,6 @@ const dispatchToProps = dispatch => {
         },
         playAiTurn(battlefield, id) {
             dispatch(playAiTurn(battlefield, id));
-        },
-        resolve(battlefield) {
-            dispatch(resolve(battlefield));
         }
     };
 };
