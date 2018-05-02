@@ -57,7 +57,7 @@ export const playCard = (battlefield, playerId, card, slot) => {
                 setTimeout(() => dispatch(resolve(battlefield)), 1000);
             }
         } else {
-            dispatch(error('Cannot play that card in this slot'))
+            dispatch(error('Cannot play that card in this slot, try another one'))
         }
     }
 };
