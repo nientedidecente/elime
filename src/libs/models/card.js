@@ -2,7 +2,7 @@ import {TYPES} from "./types";
 
 export const CARD_COSTS = {
     LOW: 1,
-    HIGH: 20
+    HIGH: 10
 };
 
 export class Card {

@@ -56,6 +56,10 @@ class BattleField {
         this.turn = player;
     }
 
+    toggleTurn() {
+        this.endTurn(this.turn)
+    }
+
     endTurn(player) {
         this.turn = player === PLAYERS.ONE ? PLAYERS.TWO : PLAYERS.ONE;
     }

@@ -66,6 +66,7 @@ export const resolve = battlefield => {
     return dispatch => {
         battlefield.resolve();
         battlefield.setHands();
+        battlefield.toggleTurn();
         if (battlefield.isOver()) {
             dispatch(finished(battlefield.result()))
         }
