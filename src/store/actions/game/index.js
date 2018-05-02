@@ -67,6 +67,16 @@ export const playCard = (battlefield, playerId, card, slot) => {
     }
 };
 
+export const resolve = battlefield => {
+    battlefield.resolve();
+    return {
+        type: UPDATE_BATTLEFIELD,
+        data: {
+            battlefield: cloneObject(BattleField, battlefield)
+        }
+    }
+};
+
 
 export const clearMessage = () => {
     return {
