@@ -26,7 +26,7 @@ class BattlefieldView extends Component {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <Slots slots={cpu.slots}/>
+                        <Slots slots={cpu.slots} cumulative={battlefield.cumulativeCosts[cpu.id]}/>
                     </Grid.Column>
                 </Grid.Row>
                 {ui.message && (
@@ -38,7 +38,7 @@ class BattlefieldView extends Component {
                 )}
                 <Grid.Row>
                     <Grid.Column>
-                        <Slots slots={human.slots} selectable playerId={human.id}/>
+                        <Slots slots={human.slots} selectable playerId={human.id} cumulative={battlefield.cumulativeCosts[human.id]}/>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

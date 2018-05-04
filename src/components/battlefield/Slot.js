@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Card} from "../cards/Card";
-import {Segment, Card as SCard} from "semantic-ui-react";
+import {Segment, Card as SCard, Label} from "semantic-ui-react";
 import styles from "../cards/styles";
 import {playCard} from "../../store/actions/game";
 
@@ -14,9 +14,10 @@ class SlotView extends Component {
     }
 
     render() {
-        const {card, onClick, selectable} = this.props;
+        const {card, onClick, selectable, cumulative} = this.props;
         return (
             <Segment>
+                {cumulative > 0 && <Label color="red" floating>{cumulative}</Label>}
                 {card && <Card card={card} onClick={onClick ? () => onClick() : null}/>}
                 {!card &&
                 <SCard

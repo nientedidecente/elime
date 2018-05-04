@@ -4,7 +4,7 @@ import {Grid} from "semantic-ui-react";
 
 class Slots extends Component {
     render() {
-        const {slots, selectable, playerId} = this.props;
+        const {slots, selectable, playerId, cumulative} = this.props;
         return (
             <Grid columns="equal">
                 <Grid.Row>
@@ -15,6 +15,7 @@ class Slots extends Component {
                                 id={k}
                                 playerId={playerId}
                                 selectable={selectable && slots[k] === null}
+                                cumulative={cumulative[k]}
                             />
                         </Grid.Column>
                     ))}
