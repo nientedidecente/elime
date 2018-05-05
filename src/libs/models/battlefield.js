@@ -157,7 +157,9 @@ class BattleField {
         const loser = winner === PLAYERS.ONE ? PLAYERS.TWO : PLAYERS.ONE;
         return {
             winner,
-            loser
+            loser,
+            [PLAYERS.ONE]: this.players[PLAYERS.ONE].status(),
+            [PLAYERS.TWO]: this.players[PLAYERS.TWO].status()
         }
     }
 

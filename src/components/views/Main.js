@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container} from "semantic-ui-react";
 import {Battlefield} from "./Battlefield";
+import {Result} from "./Result";
 
 class MainView extends Component {
     render() {
+        const {finished} = this.props;
         return (
             <Container textAlign="center">
-                {!this.props.finished && <Battlefield/>}
-                {this.props.finished && <pre>{JSON.stringify(this.props.finished)}</pre>}
+                {!finished && <Battlefield/>}
+                {finished && <Result result={finished}/>}
             </Container>
         );
     }
