@@ -38,7 +38,8 @@ class BattlefieldView extends Component {
                 )}
                 <Grid.Row>
                     <Grid.Column>
-                        <Slots slots={human.slots} selectable playerId={human.id} cumulative={battlefield.cumulativeCosts[human.id]}/>
+                        <Slots slots={human.slots} selectable playerId={human.id}
+                               cumulative={battlefield.cumulativeCosts[human.id]}/>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
