@@ -1,4 +1,4 @@
-import {FINISHED, SELECT_CARD, UPDATE_BATTLEFIELD} from "../actions/game";
+import {DESELECT_CARD, FINISHED, SELECT_CARD, UPDATE_BATTLEFIELD} from "../actions/game";
 
 const initialState = {
     battlefield: null,
@@ -8,6 +8,7 @@ const initialState = {
 
 export const game = (state = initialState, action) => {
     switch (action.type) {
+        case DESELECT_CARD:
         case SELECT_CARD:
         case FINISHED:
         case UPDATE_BATTLEFIELD: {

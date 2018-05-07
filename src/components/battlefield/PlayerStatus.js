@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Header, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {selectCard} from "../../store/actions/game";
+import {deselectCard, selectCard} from "../../store/actions/game";
 import {Card} from "../cards/Card";
 import {Hand} from "./Hand";
 
@@ -24,7 +24,7 @@ class PlayerStatusView extends Component {
     }
 
     render() {
-        const {player, playersTurn, local, battlefield, selectedCard} = this.props;
+        const {player, playersTurn, local, battlefield, selectedCard, deselectCard} = this.props;
         const {handShown} = this.state;
         const canPlay = selectedCard === null && local;
 
@@ -38,9 +38,12 @@ class PlayerStatusView extends Component {
                     />
                 )}
                 {(local && selectedCard) && (
-                    <Segment>
-                        <Card card={selectedCard}/>
-                    </Segment>
+                    <Segment.Group horizontal>
+                        <Segment>
+                            <Card card={selectedCard}/>
+                        </Segment>
+                        <Button onClick={() => deselectCard()}>X</Button>
+                    </Segment.Group>
                 )}
                 {(!local || (!handShown && !selectedCard)) && (
                     <Segment.Group horizontal>
@@ -106,7 +109,10 @@ const stateToProps = ({game}) => {
 const dispatchToProps = dispatch => {
     return {
         selectCard(card) {
-            dispatch(selectCard(card))
+            dispatch(selectCard(card));
+        },
+        deselectCard() {
+            dispatch(deselectCard());
         }
     };
 };

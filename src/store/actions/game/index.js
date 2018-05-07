@@ -4,6 +4,7 @@ import {cloneObject} from "../../../libs/utils";
 
 export const UPDATE_BATTLEFIELD = 'update_battlefield';
 export const SELECT_CARD = 'select_card';
+export const DESELECT_CARD = 'deselect_card';
 
 export const FINISHED = 'finished';
 
@@ -35,6 +36,15 @@ export const selectCard = selectedCard => {
         type: SELECT_CARD,
         data: {
             selectedCard
+        }
+    }
+};
+
+export const deselectCard = () => {
+    return {
+        type: DESELECT_CARD,
+        data: {
+            selectedCard: null
         }
     }
 };
