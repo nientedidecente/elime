@@ -1,3 +1,4 @@
+import {randomizer} from 'uvk';
 import {Ai, BattleField, Deck, PLAYERS} from "../../../libs/models";
 import {cardGenerator} from "../../../libs/generators/cardGenerator";
 import {cloneObject} from "../../../libs/utils";
@@ -12,13 +13,13 @@ export const CLEAR_MESSAGE = 'clear_message';
 export const ERROR_MESSAGE = 'error_message';
 
 
-export const initGame = () => {
+export const initGame = ({randomStarter = false} = {}) => {
     const playersDeck = new Deck(cardGenerator.generate());
     const cpusDeck = new Deck(cardGenerator.generate());
     const player = {name: 'Human', life: 20, deck: playersDeck};
     const cpu = {name: 'Computer', life: 20, deck: cpusDeck};
     const battlefield = new BattleField(player, cpu);
-    battlefield.forceTurn(PLAYERS.ONE);
+    battlefield.forceTurn(randomStarter ? randomizer.pickOne(Object.values(PLAYERS)) : PLAYERS.ONE);
 
     battlefield.setHand(PLAYERS.ONE);
     battlefield.setHand(PLAYERS.TWO);
@@ -26,7 +27,8 @@ export const initGame = () => {
     return {
         type: UPDATE_BATTLEFIELD,
         data: {
-            battlefield
+            battlefield,
+            finished: false
         }
     }
 };

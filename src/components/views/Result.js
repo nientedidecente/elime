@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Statistic, Icon, Button} from "semantic-ui-react";
 import Header from "semantic-ui-react/dist/es/elements/Header/Header";
 import {PLAYERS} from "../../libs/models";
+import {initGame} from "../../store/actions/game";
 
-class Result extends Component {
+class ResultView extends Component {
     render() {
-        const {result} = this.props;
-        console.log(result);
+        const {result, initGame} = this.props;
         return (
             <div style={{
                 display: 'flex',
@@ -44,15 +45,28 @@ class Result extends Component {
                     <Button
                         fluid
                         primary
-                        onClick={() => window.location = window.location}
+                        onClick={() => initGame()}
                     >
                         <Icon name="refresh"/>
-                        Restart Game
+                        Play Again
                     </Button>
                 </div>
             </div>
         );
     }
 }
+
+
+const stateToProps = () => {
+    return {};
+};
+const dispatchToProps = dispatch => {
+    return {
+        initGame() {
+            dispatch(initGame({randomStarter: true}));
+        }
+    };
+};
+const Result = connect(stateToProps, dispatchToProps)(ResultView);
 
 export {Result};
