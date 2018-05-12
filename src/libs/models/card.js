@@ -1,5 +1,3 @@
-import {TYPES} from "./types";
-
 export const CARD_COSTS = {
     LOW: 1,
     HIGH: 10
@@ -8,12 +6,26 @@ export const CARD_COSTS = {
 export class Card {
     constructor({name, type, cost, action = null}) {
         this.name = name;
-        if (Object.values(TYPES).indexOf(type) < 0) {
-            throw Error(`invalid type ${type}`);
-        }
         this.type = type;
         this.cost = cost;
         this.action = action;
     }
 
+    toJs() {
+        return {
+            name: this.name,
+            type: this.type,
+            cost: this.cost,
+            action: this.action
+        }
+    }
+
+    static fromJs(jsObject) {
+        const card = new Card({});
+        card.name = jsObject.name;
+        card.type = jsObject.type;
+        card.cost = jsObject.cost;
+        card.action = jsObject.action;
+        return card;
+    }
 }

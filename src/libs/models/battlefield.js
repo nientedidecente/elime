@@ -180,6 +180,30 @@ class BattleField {
         this.cumulativeCosts[PLAYERS.ONE][slot] += costPlayerOne;
         this.cumulativeCosts[PLAYERS.TWO][slot] += costPlayerTwo;
     }
+
+    toJs() {
+        return {
+            players: {
+                [PLAYERS.ONE]: this.players[PLAYERS.ONE].toJs(),
+                [PLAYERS.TWO]: this.players[PLAYERS.TWO].toJs()
+            },
+            cumulativeCosts: this.cumulativeCosts,
+            turn: this.turn,
+            oldMoved: this.oldMoved,
+            moves: this.moves
+        };
+    }
+
+    static fromJs(jsObject) {
+        const battlefield = new BattleField();
+        battlefield.players[PLAYERS.ONE] = Player.fromJs(jsObject.players[PLAYERS.ONE]);
+        battlefield.players[PLAYERS.TWO] = Player.fromJs(jsObject.players[PLAYERS.TWO]);
+        battlefield.cumulativeCosts = jsObject.cumulativeCosts;
+        battlefield.turn = jsObject.turn;
+        battlefield.oldMoved = jsObject.oldMoved;
+        battlefield.moves = jsObject.moves;
+        return battlefield;
+    }
 }
 
 export {BattleField}

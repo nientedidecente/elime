@@ -1,11 +1,8 @@
-import {CARDS_IN_DECK} from "../../config";
 import {arrayShuffle} from "../utils";
+import {Card} from './card';
 
 export class Deck {
     constructor(cards = []) {
-        if (cards.length !== CARDS_IN_DECK) {
-            throw Error(`wrong number of cards ${cards.length} (expected ${CARDS_IN_DECK})`)
-        }
         this.cards = cards;
     }
 
@@ -19,5 +16,17 @@ export class Deck {
 
     draw() {
         return this.cards.pop();
+    }
+
+    toJs() {
+        return {
+            cards: this.cards.map(c => c.toJs())
+        }
+    }
+
+    static fromJs(jsObject) {
+        const deck = new Deck();
+        deck.cards = jsObject.cards.map(c => Card.fromJs(c));
+        return deck;
     }
 }
