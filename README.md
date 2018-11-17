@@ -9,3 +9,14 @@ On the 31st of March 2018, this game was officially abandoned, so it is not poss
 I am going to make a small game engine that will use the same in game rules, using es6 and react.
 
 Any help would be appreciated.
+
+## How to
+**run the server**
+```
+npm start
+```
+
+**run the FE client**
+```
+cd client && npm start
+```
