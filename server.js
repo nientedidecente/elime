@@ -14,9 +14,18 @@ app.get('/express_backend', (req, res) => {
   console.log('got called!');
 });
 */
+const connections = new Map();
 
-io.on('connection', function(){
-  console.log('a user connected');
+io.on('connection', function (c) {
+
+    connections.set(c, c);
+    console.log('connected ', c.id);
+
+    c.once('disconnect', function () {
+        connections.delete(c);
+        console.log('disconnected ', c.id);
+    });
+
 });
 
 io.listen(port);
