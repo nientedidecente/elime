@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import {PlayerStatus, Slots} from "../battlefield";
-import {Grid, Message} from "semantic-ui-react";
-import {connect} from "react-redux";
-import {clearMessage, playAiTurn} from "../../store/actions/game";
+import React, { Component } from 'react';
+import { PlayerStatus, Slots } from "../battlefield";
+import { Grid, Message } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { clearMessage, playAiTurn } from "store/actions/game";
 
 class BattlefieldView extends Component {
     render() {
-        const {battlefield, ui, dismissMessage, playAiTurn} = this.props;
-        const {player2: cpu, player1: human} = battlefield.status();
+        const { battlefield, ui, dismissMessage, playAiTurn } = this.props;
+        const { player2: cpu, player1: human } = battlefield.status();
         const isFull = battlefield.isFull();
         const turn = !isFull ? battlefield.getTurn() : null;
 
@@ -18,15 +18,15 @@ class BattlefieldView extends Component {
             playAiTurn(battlefield, cpu.id);
         }
         return (
-            <Grid style={{height: '110vh'}}>
+            <Grid style={{ height: '110vh' }}>
                 <Grid.Row>
                     <Grid.Column>
-                        <PlayerStatus playersTurn={turn === cpu.id} player={cpu}/>
+                        <PlayerStatus playersTurn={turn === cpu.id} player={cpu} />
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <Slots slots={cpu.slots} cumulative={battlefield.cumulativeCosts[cpu.id]}/>
+                        <Slots slots={cpu.slots} cumulative={battlefield.cumulativeCosts[cpu.id]} />
                     </Grid.Column>
                 </Grid.Row>
                 {ui.message && (
@@ -39,12 +39,12 @@ class BattlefieldView extends Component {
                 <Grid.Row>
                     <Grid.Column>
                         <Slots slots={human.slots} selectable playerId={human.id}
-                               cumulative={battlefield.cumulativeCosts[human.id]}/>
+                            cumulative={battlefield.cumulativeCosts[human.id]} />
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column>
-                        <PlayerStatus playersTurn={turn === human.id} player={human} local/>
+                        <PlayerStatus playersTurn={turn === human.id} player={human} local />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -52,9 +52,9 @@ class BattlefieldView extends Component {
     }
 }
 
-const stateToProps = ({game, ui}) => {
-    const {battlefield} = game;
-    return {battlefield, ui};
+const stateToProps = ({ game, ui }) => {
+    const { battlefield } = game;
+    return { battlefield, ui };
 };
 const dispatchToProps = dispatch => {
     return {
@@ -67,4 +67,4 @@ const dispatchToProps = dispatch => {
     };
 };
 const Battlefield = connect(stateToProps, dispatchToProps)(BattlefieldView);
-export {Battlefield};
+export { Battlefield };

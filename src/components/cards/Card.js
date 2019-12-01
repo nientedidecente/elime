@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Card as SCard} from 'semantic-ui-react';
-import {Icon} from "./elements/Icon";
-import {TYPES} from "../../libs/models";
+import React, { Component } from 'react';
+import { Card as SCard } from 'semantic-ui-react';
+import { Icon } from "./elements/Icon";
+import { TYPES } from "libs/models";
 
 import styles from './styles';
 
@@ -13,11 +13,11 @@ const colourMapping = {
 
 class Card extends Component {
     render() {
-        const {card, covered, onClick} = this.props;
+        const { card, covered, onClick } = this.props;
         if (covered) {
             return (
-                <SCard style={{margin: 'auto'}}>
-                    <Icon element={TYPES.FIRE}/><Icon element={TYPES.WATER}/><Icon element={TYPES.EARTH}/>
+                <SCard style={{ margin: 'auto' }}>
+                    <Icon element={TYPES.FIRE} /><Icon element={TYPES.WATER} /><Icon element={TYPES.EARTH} />
                 </SCard>
             );
         }
@@ -27,7 +27,7 @@ class Card extends Component {
                 style={styles.cardWrapper}
                 onClick={onClick ? () => onClick() : null}
             >
-                <Icon element={card.type}/>
+                <Icon element={card.type} />
                 <SCard.Content>
                     <SCard.Header>
                         {card.cost}
@@ -41,4 +41,4 @@ class Card extends Component {
     }
 }
 
-export {Card};
+export { Card };

@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {Button, Header, Segment} from "semantic-ui-react";
-import {connect} from "react-redux";
-import {deselectCard, selectCard} from "../../store/actions/game";
-import {Card} from "../cards/Card";
-import {Hand} from "./Hand";
+import React, { Component } from 'react';
+import { Button, Header, Segment } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { deselectCard, selectCard } from "store/actions/game";
+import { Card } from "../cards/Card";
+import { Hand } from "./Hand";
 
 class PlayerStatusView extends Component {
     state = {
@@ -11,11 +11,11 @@ class PlayerStatusView extends Component {
     };
 
     showHand() {
-        this.setState({handShown: true})
+        this.setState({ handShown: true })
     }
 
     closeHand() {
-        this.setState({handShown: false})
+        this.setState({ handShown: false })
     }
 
     selectCard(card) {
@@ -24,8 +24,8 @@ class PlayerStatusView extends Component {
     }
 
     render() {
-        const {player, playersTurn, local, battlefield, selectedCard, deselectCard} = this.props;
-        const {handShown} = this.state;
+        const { player, playersTurn, local, battlefield, selectedCard, deselectCard } = this.props;
+        const { handShown } = this.state;
         const canPlay = selectedCard === null && local;
 
         return (
@@ -40,7 +40,7 @@ class PlayerStatusView extends Component {
                 {(local && selectedCard) && (
                     <Segment.Group horizontal>
                         <Segment>
-                            <Card card={selectedCard}/>
+                            <Card card={selectedCard} />
                         </Segment>
                         <Button onClick={() => deselectCard()}>X</Button>
                     </Segment.Group>
@@ -102,9 +102,9 @@ class PlayerStatusView extends Component {
     }
 }
 
-const stateToProps = ({game}) => {
-    const {battlefield, selectedCard} = game;
-    return {battlefield, selectedCard};
+const stateToProps = ({ game }) => {
+    const { battlefield, selectedCard } = game;
+    return { battlefield, selectedCard };
 };
 const dispatchToProps = dispatch => {
     return {
@@ -118,4 +118,4 @@ const dispatchToProps = dispatch => {
 };
 const PlayerStatus = connect(stateToProps, dispatchToProps)(PlayerStatusView);
 
-export {PlayerStatus};
+export { PlayerStatus };

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {Provider} from 'react-redux';
-import {Main} from "./components/views";
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { Main } from "./components/views";
 import './App.css';
 
-import {store} from './store';
-import {initGame} from "./store/actions/game";
+import { store } from 'store';
+import { initGame } from "store/actions/game";
 
 class App extends Component {
 
@@ -15,7 +15,7 @@ class App extends Component {
     render() {
         return (
             <Provider store={store}>
-                <Main/>
+                <Main />
             </Provider>
         );
     }

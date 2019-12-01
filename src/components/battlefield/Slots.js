@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {Slot} from "./Slot";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from 'react';
+import { Slot } from "./Slot";
+import { Grid } from "semantic-ui-react";
 
 class Slots extends Component {
     render() {
-        const {slots, selectable, playerId, cumulative} = this.props;
+        const { slots, selectable, playerId, cumulative } = this.props;
         return (
             <Grid columns="equal">
                 <Grid.Row>
@@ -25,4 +25,4 @@ class Slots extends Component {
     }
 }
 
-export {Slots};
+export { Slots };

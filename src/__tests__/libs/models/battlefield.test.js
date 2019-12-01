@@ -1,6 +1,6 @@
-import {BattleField, Card, Deck, PLAYERS, SLOTS, TYPES} from "../../../libs/models";
-import {cardGenerator} from "../../../libs/generators/cardGenerator";
-import {CARDS_IN_DECK} from "../../../config";
+import { BattleField, Card, Deck, PLAYERS, SLOTS, TYPES } from "../../../libs/models";
+import { cardGenerator } from "../../../libs/generators/cardGenerator";
+import { CARDS_IN_DECK } from "../../../config";
 
 test('battle round test', () => {
     const cards = cardGenerator.generate(CARDS_IN_DECK);
@@ -9,8 +9,8 @@ test('battle round test', () => {
 
     deck.shuffle();
 
-    const playerOne = {name: 'uno', deck};
-    const playerTwo = {name: 'due', deck};
+    const playerOne = { name: 'uno', deck };
+    const playerTwo = { name: 'due', deck };
 
     const battleField = new BattleField(playerOne, playerTwo);
     battleField.forceTurn(PLAYERS.ONE);
@@ -31,12 +31,12 @@ test('battle round test', () => {
 test('if draw, cost will be carried next turn', () => {
     const cards = cardGenerator.generate(CARDS_IN_DECK);
     const deck = new Deck(cards);
-    const playerOne = {name: 'uno', deck};
-    const playerTwo = {name: 'due', deck};
+    const playerOne = { name: 'uno', deck };
+    const playerTwo = { name: 'due', deck };
     const cost = 10;
     const battleField = new BattleField(playerOne, playerTwo);
-    const fire = new Card({name: '', type: TYPES.FIRE, cost});
-    const water = new Card({name: '', type: TYPES.WATER, cost});
+    const fire = new Card({ name: '', type: TYPES.FIRE, cost });
+    const water = new Card({ name: '', type: TYPES.WATER, cost });
     expect(battleField.players[PLAYERS.ONE].discardPile.length).toBe(0);
     expect(battleField.players[PLAYERS.TWO].discardPile.length).toBe(0);
     battleField.forceTurn(PLAYERS.ONE);
@@ -71,9 +71,9 @@ test('if draw, cost will be carried next turn', () => {
 
 test('set hands will get the right number of cards', () => {
     const deckOne = new Deck(cardGenerator.generate());
-    const playerOne = {life: 20, deck: deckOne};
+    const playerOne = { life: 20, deck: deckOne };
     const deckTwo = new Deck(cardGenerator.generate());
-    const playerTwo = {life: 20, deck: deckTwo};
+    const playerTwo = { life: 20, deck: deckTwo };
     const battleField = new BattleField(playerOne, playerTwo);
     battleField.setHand(PLAYERS.ONE);
     battleField.setHand(PLAYERS.TWO);
@@ -85,12 +85,12 @@ test('set hands will get the right number of cards', () => {
 test('it can be serialize/deserialized to/from a plain json object', () => {
     const cards = cardGenerator.generate(CARDS_IN_DECK);
     const deck = new Deck(cards);
-    const playerOne = {name: 'uno', deck};
-    const playerTwo = {name: 'due', deck};
+    const playerOne = { name: 'uno', deck };
+    const playerTwo = { name: 'due', deck };
     const cost = 10;
     const battleField = new BattleField(playerOne, playerTwo);
-    const fire = new Card({name: '', type: TYPES.FIRE, cost});
-    const water = new Card({name: '', type: TYPES.WATER, cost});
+    const fire = new Card({ name: '', type: TYPES.FIRE, cost });
+    const water = new Card({ name: '', type: TYPES.WATER, cost });
     expect(battleField.players[PLAYERS.ONE].discardPile.length).toBe(0);
     expect(battleField.players[PLAYERS.TWO].discardPile.length).toBe(0);
     battleField.forceTurn(PLAYERS.ONE);
