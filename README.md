@@ -9,3 +9,5 @@ On the 31st of March 2018, this game was officially abandoned, so it is not poss
 I am going to make a small game engine that will use the same in game rules, using es6 and react.
 
 Any help would be appreciated.
+
+### Is there any plan to retake this project? As UX/UI and web designer, I think I can help a lot... gchuca@gmail.com
