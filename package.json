@@ -13,7 +13,7 @@
     "uvk": "^1.0.2"
   },
   "devDependencies": {
-    "react-scripts": "^3.2.0"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
